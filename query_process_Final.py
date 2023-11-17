@@ -73,13 +73,10 @@ class QueryProcess:
         doc_IDs = []
 
         for term, synonyms in querySyns.items():
-            if self.stopwords is None:
-                processed_query = preprocess_query(term + synonyms)
-            else:
-                processed_query = [term for term in preprocess_query(term + synonyms)
-                               if term not in self.stopwords]
-        results = self.index.search(processed_query, number_of_results)
-        doc_IDs.extend(results)
+            processed_query = preprocess_query(term + synonyms)
+            results = self.index.search(processed_query, number_of_results)
+            doc_IDs.extend(results)
+            
         return self.output_formatter.format_out(doc_IDs, self.document_store, processed_query)
 
 
